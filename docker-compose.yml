@@ -3,16 +3,16 @@ version: "3"
 services:
   pihole-doh:
     container_name: pihole-doh
-    image: azamserver/pihole-doh:latest
+    build: ./
     restart: unless-stopped
     ports:
       - "53:53/tcp"
       - "53:53/udp"
-      - "67:67/udp"
+      # - "67:67/udp" # uncomment for DHCP server support
       - "80:80/tcp"
     environment:
-      TZ: 'America/New_York'
-      DNS1: '127.0.0.1#5053'
+      TZ: 'Asia/Jakarta'
+      DNS1: '127.0.0.1#5300'
       WEBPASSWORD: admin
     volumes:
       - './etc-pihole/:/etc/pihole/'

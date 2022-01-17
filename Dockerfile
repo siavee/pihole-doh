@@ -1,20 +1,17 @@
 FROM pihole/pihole
 
-MAINTAINER ali azam <ali@azam.email>
-
-EXPOSE 53:53/tcp 53:53/udp 67:67/udp 80:80/tcp
+EXPOSE 53:53/tcp 53:53/udp 80:80/tcp
 
 RUN apt-get update \
     && apt-get -y upgrade \
     && apt-get -y autoremove --purge \
     && apt-get -y install wget \
-    && wget https://bin.equinox.io/c/VdrWdbjqyF/cloudflared-stable-linux-amd64.deb \
-    && apt-get install ./cloudflared-stable-linux-amd64.deb \
-    && mkdir -p /etc/cloudflared/ 
+    && wget https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.1.1/dnscrypt-proxy-linux_x86_64-2.1.1.tar.gz \
+    && tar xzfv dnscrypt-proxy-linux_x86_64-2.1.1.tar.gz \
+    && mv linux-x86_64 dnscrypt-proxy \
+    && mv dnscrypt-proxy /opt
     
-COPY ./config.yml /etc/cloudflared/config.yml
-
-RUN cloudflared service install --legacy
+COPY ./dnscrypt-proxy.toml /opt/dnscrypt-proxy/dnscrypt-proxy.toml
     
 COPY ./startup /etc/startup
 

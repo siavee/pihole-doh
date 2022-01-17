@@ -1,8 +1,8 @@
 version: "3"
 
 services:
-  pihole-doh:
-    container_name: pihole-doh
+  pihole-dnscrypt:
+    container_name: pihole-dnscrypt
     build: ./
     restart: unless-stopped
     ports:
